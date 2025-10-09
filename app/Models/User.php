@@ -17,10 +17,16 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    protected $table = 'user';
+    protected $primaryKey = 'id';
+    public $timestamps = false;
+
     protected $fillable = [
-        'name',
+        'id',
+        'username',
         'email',
-        'password',
+        'password'
     ];
 
     /**
@@ -44,5 +50,16 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function watchedMovies(): BelongsToMany
+    {
+        return $this->belongsToMany(Movie::class, 'user_movie_history', 'users_id', 'movie_id')
+                    ->withPivot('watched', 'rating');
+    }
+
+    public function plannedMovies(): BelongsToMany
+    {
+        return $this->belongsToMany(Movie::class, 'plan_to_watch', 'users_id', 'movie_id');
     }
 }
