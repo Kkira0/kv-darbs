@@ -1,0 +1,19 @@
+
+.selection-card {
+    transition: transform 0.2s, background-color 0.2s;
+}
+.selection-card:hover {
+    transform: scale(1.05);
+    background-color: #c58d8a;
+}
+.selection-card.selected {
+    border: 3px solid #562020;
+    background-color: #E3B3B3;
+}
+.film-card img {
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    background-color: #000;
+}
