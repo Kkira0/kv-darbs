@@ -10,15 +10,26 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/') }}">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('/about') }}">Par mums</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('/login') }}">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('/register') }}">Signup</a>
-        </li>
+        @guest
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/login') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/register') }}">Reģistrēties</a>
+          </li>
+        @endguest
+
+        @auth
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/profile') }}">Profils</a>
+          </li>
+          <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <button type="submit" class="nav-link btn btn-link text-decoration-none">Logout</button>
+            </form>
+          </li>
+        @endauth
       </ul>
     </div>
   </div>

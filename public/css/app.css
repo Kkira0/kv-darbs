@@ -1,12 +1,11 @@
-/* === General Body === */
 body {
-    background-color: #A85545; /* dark burgundy background */
-    color: #f5e6e6; /* soft off-white text */
+    background-color: #A85545; 
+    color: #f5e6e6; 
     font-family: 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
 }
 
-/* === Links === */
+
 .nav-link {
     color: #f5e6e6;
     text-decoration: none;
@@ -21,18 +20,14 @@ body {
 }
 
 
-
-
-
-/* === Navbar === */
 .navbar {
-    background-color: #2a0d0d; /* dark burgundy navbar */
+    background-color: #2a0d0d;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 .navbar-brand {
     font-weight: bold;
-    color: #9C2007 !important; /* primary red logo */
+    color: #9C2007 !important; 
     font-size: 1.6rem;
 }
 
@@ -44,7 +39,6 @@ body {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%289C,32,7,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-/* === Buttons === */
 .btn-primary {
     background-color: #562020;
     border-color: #562020;
@@ -56,7 +50,6 @@ body {
     border-color: #562020;
 }
 
-/* === Cards === */
 .card {
     background-color: #2a0d0d;
     border: none;
@@ -70,7 +63,6 @@ body {
     transform: translateY(-5px);
 }
 
-/* Card content */
 .card-title {
     color: #9C2007;
     font-weight: 600;
@@ -80,7 +72,6 @@ body {
     color: #f5e6e6;
 }
 
-/* === Hero / Banner === */
 .hero {
     background: linear-gradient(rgba(31,15,15,0.8), rgba(31,15,15,0.8)), url('/images/movie-bg.jpg') no-repeat center center;
     background-size: cover;
@@ -90,7 +81,6 @@ body {
     border-radius: 12px;
 }
 
-/* Hero title */
 .hero h1 {
     font-size: 3rem;
     color: #9C2007;
@@ -102,7 +92,6 @@ body {
     color: #e0cfcf;
 }
 
-/* === Footer === */
 footer {
     background-color: #2a0d0d;
     color: #f5e6e6;
@@ -112,12 +101,10 @@ footer {
     font-size: 0.9rem;
 }
 
-/* === Misc === */
 .container {
     max-width: 1100px;
 }
 
-/* Cozy glow effect for links in cards */
 .card a {
     color: #9C2007;
     text-decoration: underline;
