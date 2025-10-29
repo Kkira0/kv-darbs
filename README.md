@@ -1,13 +1,24 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <span style="font-size: 80px; color: red; font-weight: bold;">KILM</span>
 </p>
 
+<p align="center" style="max-width: 700px; text-align: justify; margin: 20px auto; font-size: 16px; line-height: 1.6;">
+  Projekta galvenais mērķis ir palīdzēt lietotājiem vieglāk izvēlēties piemērotu filmu skatīšanai, piedāvājot personalizētus filmu ieteikumus, kas balstīti uz viņu vēlmēm un skatīšanās vēsturi. Tā risina bieži sastopamo problēmu - grūtības izvēlēties, ko skatīties vakarā, piedāvājot automatizētu un lietotājam pielāgotu risinājumu.
+</p>
 
+## Kā setup projektu
+
+1. Nokopē https://github.com/Kkira0/kv-darbs.git
+2. Vietā, kur vēlies, lai projekts atrodas ievada rindiņu git clone https://github.com/Kkira0/kv-darbs.git
+3. composer install
+4. cp .env.example .env
+
+## Iesakāms rediģēt .env failu uz mysql, bet nav obligāti
+
+5. php artisan key:generate
+6. php artisan migrate
+7. php artisan db:seed --class=MovieDatabaseSeeder
+8. php artisan serve
 
 ## Contributing
 
