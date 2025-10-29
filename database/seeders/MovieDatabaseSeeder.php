@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 class MovieDatabaseSeeder extends Seeder
 {
     private const API_KEY = '1a48de70587f1cb8090b3156f747b2f1';
-
     private const TOTAL_PAGES = 30;
 
     public function run(): void
@@ -78,6 +77,11 @@ class MovieDatabaseSeeder extends Seeder
         $this->command->info('🎞️ Inserting movies...');
 
         foreach ($movies as $m) {
+
+            $releaseDate = (!empty($m['release_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $m['release_date']))
+                ? $m['release_date']
+                : null;
+
             DB::table('movie')->updateOrInsert(
                 ['id' => $m['id']],
                 [
@@ -86,7 +90,7 @@ class MovieDatabaseSeeder extends Seeder
                     'original_title' => $m['original_title'] ?? '',
                     'original_language' => $m['original_language'] ?? '',
                     'description' => $m['overview'] ?? '',
-                    'release_date' => $m['release_date'] ?? null,
+                    'release_date' => $releaseDate,
                     'vote_average' => $m['vote_average'] ?? 0,
                     'poster_path' => $m['poster_path'] ?? null,
                 ]
