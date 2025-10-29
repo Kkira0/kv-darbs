@@ -1,24 +1,25 @@
-<p align="center">
-  <span style="font-size: 80px; color: red; font-weight: bold;">KILM</span>
+<p style="text-align: center; margin-top: 50px;">
+  <span style="font-size: 80px; color: red; font-weight: bold; font-family: 'Arial Black', sans-serif;">KILM</span>
 </p>
 
-<p align="center" style="max-width: 700px; text-align: justify; margin: 20px auto; font-size: 16px; line-height: 1.6;">
-  Projekta galvenais mērķis ir palīdzēt lietotājiem vieglāk izvēlēties piemērotu filmu skatīšanai, piedāvājot personalizētus filmu ieteikumus, kas balstīti uz viņu vēlmēm un skatīšanās vēsturi. Tā risina bieži sastopamo problēmu - grūtības izvēlēties, ko skatīties vakarā, piedāvājot automatizētu un lietotājam pielāgotu risinājumu.
-</p>
+<div style="max-width: 700px; margin: 20px auto; font-size: 18px; line-height: 1.8; text-align: justify; color: #333; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  Projekta galvenais mērķis ir palīdzēt lietotājiem vieglāk izvēlēties piemērotu filmu skatīšanai, piedāvājot personalizētus filmu ieteikumus, kas balstīti uz viņu vēlmēm un skatīšanās vēsturi. Tā risina bieži sastopamo problēmu – grūtības izvēlēties, ko skatīties vakarā, piedāvājot automatizētu un lietotājam pielāgotu risinājumu.
+</div>
 
-## Kā setup projektu
-
-1. Nokopē https://github.com/Kkira0/kv-darbs.git
-2. Vietā, kur vēlies, lai projekts atrodas ievada rindiņu git clone https://github.com/Kkira0/kv-darbs.git
-3. composer install
-4. cp .env.example .env
-
-## Iesakāms rediģēt .env failu uz mysql, bet nav obligāti
-
-5. php artisan key:generate
-6. php artisan migrate
-7. php artisan db:seed --class=MovieDatabaseSeeder
-8. php artisan serve
+<div style="max-width: 700px; margin: 40px auto; font-size: 16px; line-height: 1.6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <h2 style="text-align: center; color: #444;">Kā setup projektu</h2>
+  <ol>
+    <li>Nokopē <code>https://github.com/Kkira0/kv-darbs.git</code></li>
+    <li>Vietā, kur vēlies, lai projekts atrodas, ievadi: <code>git clone https://github.com/Kkira0/kv-darbs.git</code></li>
+    <li><code>composer install</code></li>
+    <li><code>cp .env.example .env</code></li>
+    <li>Iesakāms rediģēt .env failu uz MySQL, bet nav obligāti</li>
+    <li><code>php artisan key:generate</code></li>
+    <li><code>php artisan migrate</code></li>
+    <li><code>php artisan db:seed --class=MovieDatabaseSeeder</code></li>
+    <li><code>php artisan serve</code></li>
+  </ol>
+</div>
 
 ## Contributing
 
