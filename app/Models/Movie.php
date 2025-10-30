@@ -37,4 +37,25 @@ class Movie extends Model
     {
         return $this->belongsToMany(User::class, 'plan_to_watch', 'movie_id', 'users_id');
     }
+
+    public function people()
+    {
+        return $this->belongsToMany(
+            People::class,
+            'movie_person',
+            'movie_id',
+            'person_id'
+        )->withPivot('role', 'character')->withTimestamps();
+    }
+
+        public function actors()
+    {
+        return $this->people()->wherePivot('role', 'Actor');
+    }
+
+    public function crew()
+    {
+        return $this->people()->wherePivot('role', '<>', 'Actor');
+    }
+
 }
