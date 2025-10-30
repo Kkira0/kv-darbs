@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class MovieDatabaseSeeder extends Seeder
 {
     private const API_KEY = '1a48de70587f1cb8090b3156f747b2f1';
-    private const TOTAL_PAGES = 30;
+    private const TOTAL_PAGES = 10;
 
     public function run(): void
     {
@@ -20,6 +20,11 @@ class MovieDatabaseSeeder extends Seeder
 
         $movies = $this->fetchMovies();
         $this->insertMovies($movies);
+
+        $people = $this->fetchPeople($movies);
+        $this->insertPeople($people);
+
+        $this->insertMoviePeople($movies);
 
         $this->command->info('✅ Import completed successfully!');
     }
@@ -60,10 +65,42 @@ class MovieDatabaseSeeder extends Seeder
         return $allMovies;
     }
 
+    private function fetchPeople(array $movies): array
+    {
+        $allPeople = [];
+
+        foreach ($movies as $m) {
+            $response = Http::get("https://api.themoviedb.org/3/movie/{$m['id']}/credits", [
+                'api_key' => self::API_KEY,
+            ]);
+
+            if ($response->failed()) {
+                $this->command->warn("⚠️ Failed to fetch credits for movie ID {$m['id']}");
+                continue;
+            }
+
+            $credits = $response->json();
+
+            if (!empty($credits['cast'])) {
+                foreach ($credits['cast'] as $person) {
+                    $allPeople[$person['id']] = $person;
+                }
+            }
+
+            if (!empty($credits['crew'])) {
+                foreach ($credits['crew'] as $person) {
+                    $allPeople[$person['id']] = $person;
+                }
+            }
+        }
+
+        return array_values($allPeople);
+    }
+
+
     private function insertGenres(array $genres): void
     {
         $this->command->info('🧩 Inserting genres...');
-
         foreach ($genres as $g) {
             DB::table('genre')->updateOrInsert(
                 ['id' => $g['id']],
@@ -75,9 +112,7 @@ class MovieDatabaseSeeder extends Seeder
     private function insertMovies(array $movies): void
     {
         $this->command->info('🎞️ Inserting movies...');
-
         foreach ($movies as $m) {
-
             $releaseDate = (!empty($m['release_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $m['release_date']))
                 ? $m['release_date']
                 : null;
@@ -101,6 +136,68 @@ class MovieDatabaseSeeder extends Seeder
                     DB::table('movie_genre')->updateOrInsert(
                         ['movie_id' => $m['id'], 'genres_id' => $gid],
                         []
+                    );
+                }
+            }
+        }
+    }
+
+    private function insertPeople(array $people): void
+    {
+        $this->command->info('🧑‍🎤 Inserting people...');
+        foreach ($people as $p) {
+            DB::table('people')->updateOrInsert(
+                ['id' => $p['id']],
+                [
+                    'name' => $p['name'] ?? '',
+                    'known_for_department' => $p['known_for_department'] ?? null,
+                    'popularity' => $p['popularity'] ?? 0,
+                    'profile_path' => $p['profile_path'] ?? null,
+                ]
+            );
+        }
+    }
+
+    private function insertMoviePeople(array $movies): void
+    {
+        $this->command->info('🎭 Linking movies and people...');
+        foreach ($movies as $m) {
+            $response = Http::get("https://api.themoviedb.org/3/movie/{$m['id']}/credits", [
+                'api_key' => self::API_KEY,
+            ]);
+
+            if ($response->failed()) {
+                continue;
+            }
+
+            $credits = $response->json();
+
+            if (!empty($credits['cast'])) {
+                foreach ($credits['cast'] as $cast) {
+                    DB::table('movie_person')->updateOrInsert(
+                        [
+                            'movie_id' => $m['id'],
+                            'person_id' => $cast['id'],
+                        ],
+                        [
+                            'role' => 'Actor',
+                            'character' => $cast['character'] ?? null,
+                        ]
+                    );
+                }
+            }
+
+            if (!empty($credits['crew'])) {
+                foreach ($credits['crew'] as $crew) {
+                    DB::table('movie_person')->updateOrInsert(
+                        [
+                            'movie_id' => $m['id'],
+                            'person_id' => $crew['id'],
+                        ],
+                        [
+                            'role' => $crew['job'] ?? 'Crew',
+                            'character' => null,
+                        ]
                     );
                 }
             }
