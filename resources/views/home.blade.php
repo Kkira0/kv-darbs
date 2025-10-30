@@ -102,6 +102,11 @@
                     <p class="card-text">Ģenerētās filmas informācija parādīsies, kad uzpiedīsiet pogu "Ģenerēt".</p>
                 </div>
             </div>
+             @auth
+            <div class="text-center mt-3">
+                <button id="markWatchedBtn" class="btn btn-success d-none">Atzīmēt kā noskatītu</button>
+            </div>
+            @endauth
         </div>
     </div>
 </div>
@@ -117,14 +122,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const filmImg = filmCard.querySelector('img');
     const filmTitle = filmCard.querySelector('.card-title');
     const filmText = filmCard.querySelector('.card-text');
-   
+    @auth
+    const markWatchedBtn = document.getElementById('markWatchedBtn');
+    @endauth
 
-    
+
+
     cards.forEach(card => card.addEventListener('click', () => {
         const { type, value } = card.dataset;
         const allCards = document.querySelectorAll(`[data-type="${type}"]`);
 
-        
+
         if (value === 'Any') {
             if (selected[type].includes('Any')) {
                 selected[type] = [];
@@ -134,8 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 allCards.forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
             }
-        } 
-        
+        }
+
         else {
             selected[type] = selected[type].filter(v => v !== 'Any');
             card.classList.toggle('selected');
@@ -147,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSummary();
     }));
 
-    
+
     const updateSummary = () => {
         const g = selected.genre.length ? selected.genre.join(', ') : 'Any';
         const r = selected.rating.length ? selected.rating.join(', ') : 'Any';
@@ -155,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         summary.textContent = `Genre: ${g} • Rating: ${r} • Year: ${y}`;
     };
 
-    
+
     generateBtn.addEventListener('click', async () => {
         try {
             const res = await fetch('{{ route("generate.film") }}', {
@@ -171,15 +179,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.error) return alert(data.error);
 
-            filmImg.src = data.poster_path 
-                ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${data.poster_path}` 
+            filmImg.src = data.poster_path
+                ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${data.poster_path}`
                 : '{{ asset("pictures/placeholder.png") }}';
             filmTitle.textContent = data.title || 'Untitled';
             filmText.textContent = data.description || 'No description available.';
+             @auth
+            markWatchedBtn.dataset.movieId = data.id;
+            markWatchedBtn.classList.remove('d-none');
+            @endauth
         } catch (err) {
             console.error('Error:', err);
         }
     });
+
+     @auth
+    markWatchedBtn.addEventListener('click', async () => {
+        const movieId = markWatchedBtn.dataset.movieId;
+        try {
+            const res = await fetch('{{ route("movie.markWatched") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ movie_id: movieId })
+            });
+            const data = await res.json();
+            alert(data.message);
+        } catch (err) {
+            console.error('Error marking watched:', err);
+        }
+    });
+    @endauth
 });
 
 </script>

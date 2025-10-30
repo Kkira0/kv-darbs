@@ -34,4 +34,11 @@ class ProfileController extends Controller
 
         return redirect()->route('profile')->with('success', 'Profile updated successfully!');
     }
+
+     public function show()
+    {
+        $user = Auth::user();
+        $watchedMovies = $user->movieHistory()->where('watched', true)->with('movie')->get();
+        return view('profile', compact('user', 'watchedMovies'));
+    }
 }

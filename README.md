@@ -13,7 +13,6 @@
     <li>Vietā, kur vēlies, lai projekts atrodas, ievadi: <code>git clone https://github.com/Kkira0/kv-darbs.git</code></li>
     <li><code>composer install</code></li>
     <li><code>cp .env.example .env</code></li>
-    <li>Iesakāms rediģēt .env failu uz MySQL, bet nav obligāti</li>
     <li><code>php artisan key:generate</code></li>
     <li><code>php artisan migrate</code></li>
     <li><code>php artisan db:seed --class=MovieDatabaseSeeder</code></li>

@@ -12,9 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'users';  
+    protected $table = 'users';
     protected $primaryKey = 'id';
-    public $timestamps = true; 
+    public $timestamps = true;
 
     protected $fillable = [
         'name',
@@ -29,13 +29,18 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed', 
+        'password' => 'hashed',
     ];
 
     public function watchedMovies(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class, 'user_movie_history', 'users_id', 'movie_id')
                     ->withPivot('watched', 'rating');
+    }
+
+    public function movieHistory()
+    {
+        return $this->hasMany(UserMovieHistory::class, 'users_id');
     }
 
     public function plannedMovies(): BelongsToMany

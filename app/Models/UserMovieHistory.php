@@ -9,6 +9,9 @@ class UserMovieHistory extends Model
     protected $table = 'user_movie_history';
     public $timestamps = false;
 
+    protected $primaryKey = null;
+    public $incrementing = false;
+
     protected $fillable = [
         'users_id',
         'movie_id',

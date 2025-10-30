@@ -22,7 +22,6 @@ class Movie extends Model
         'poster_path'
     ];
 
-    // Relationships
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'movie_genre', 'movie_id', 'genres_id');
