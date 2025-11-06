@@ -10,6 +10,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/') }}">Home</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('movies.catalog') }}">Katalogs</a>
+        </li>
         @guest
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/login') }}">Login</a>

@@ -32,3 +32,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/movie/unmark-watched', [UserMovieController::class, 'unmarkWatched'])->name('movie.unmarkWatched');
 });
 
+Route::get('/catalog', [MovieController::class, 'catalog'])->name('movies.catalog');
+

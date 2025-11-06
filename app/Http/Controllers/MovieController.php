@@ -65,4 +65,11 @@ class MovieController extends Controller
 
         return response()->json($movie, Response::HTTP_OK);
     }
+
+    public function catalog()
+    {
+        $movies = Movie::all();
+
+        return view('movies.catalog', compact('movies'));
+    }
 }
