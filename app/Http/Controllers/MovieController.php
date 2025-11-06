@@ -72,4 +72,9 @@ class MovieController extends Controller
 
         return view('movies.catalog', compact('movies'));
     }
+
+    public function show($id){
+        $movie = Movie::with(['genres', 'actors', 'crew'])->findOrFail($id);
+        return view('movies.show', compact('movie'));
+    }
 }

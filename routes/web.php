@@ -33,4 +33,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/catalog', [MovieController::class, 'catalog'])->name('movies.catalog');
+Route::get('/movie/{id}', [MovieController::class, 'show'])->name('movies.show');
 

@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : '{{ asset("pictures/placeholder.png") }}';
             filmTitle.textContent = data.title || 'Untitled';
             filmText.textContent = data.description || 'No description available.';
-             @auth
+            @auth
             markWatchedBtn.dataset.movieId = data.id;
             markWatchedBtn.classList.remove('d-none');
             @endauth
