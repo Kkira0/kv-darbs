@@ -9,14 +9,16 @@ class UserMovieHistory extends Model
     protected $table = 'user_movie_history';
     public $timestamps = false;
 
-    protected $primaryKey = null;
-    public $incrementing = false;
+    protected $primaryKey = 'id'; 
+    public $incrementing = true;  
+    protected $keyType = 'int';  
 
     protected $fillable = [
         'users_id',
         'movie_id',
         'watched',
-        'rating'
+        'plan_to_watch',
+        'preference'
     ];
 
     public function user()
@@ -29,3 +31,5 @@ class UserMovieHistory extends Model
         return $this->belongsTo(Movie::class, 'movie_id');
     }
 }
+
+

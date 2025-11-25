@@ -9,13 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_movie_history', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('users_id');
             $table->unsignedBigInteger('movie_id');
             $table->boolean('watched')->default(false);
             $table->boolean('plan_to_watch')->default(false);
             $table->tinyInteger('preference')->default(0);
 
-            $table->primary(['users_id', 'movie_id']);
+            $table->unique(['users_id', 'movie_id']);
 
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('movie_id')->references('id')->on('movie')->onDelete('cascade');

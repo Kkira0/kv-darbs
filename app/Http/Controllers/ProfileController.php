@@ -38,7 +38,22 @@ class ProfileController extends Controller
      public function show()
     {
         $user = Auth::user();
-        $watchedMovies = $user->movieHistory()->where('watched', true)->with('movie')->get();
-        return view('profile', compact('user', 'watchedMovies'));
+
+        $watchedMovies = $user->movieHistory()
+            ->where('watched', true)
+            ->with('movie')
+            ->get();
+
+        $plannedMovies = $user->movieHistory()
+            ->where('plan_to_watch', true)
+            ->with('movie')
+            ->get();
+
+        return view('profile', compact(
+            'user',
+            'watchedMovies',
+            'plannedMovies'
+        ));
+
     }
 }

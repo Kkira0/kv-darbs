@@ -106,6 +106,11 @@
             <div class="text-center mt-3">
                 <button id="markWatchedBtn" class="btn btn-success d-none">Atzīmēt kā noskatītu</button>
             </div>
+            <div class="text-center mt-3">
+                <button id="planBtn" class="btn btn-outline-warning d-none">
+                    Plānā skatīties
+                </button>
+            </div>
             @endauth
         </div>
     </div>
@@ -124,9 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const filmText = filmCard.querySelector('.card-text');
     @auth
     const markWatchedBtn = document.getElementById('markWatchedBtn');
+    const planBtn = document.getElementById('planBtn');
     @endauth
-
-
 
     cards.forEach(card => card.addEventListener('click', () => {
         const { type, value } = card.dataset;
@@ -184,10 +188,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 : '{{ asset("pictures/placeholder.png") }}';
             filmTitle.textContent = data.title || 'Untitled';
             filmText.textContent = data.description || 'No description available.';
+
             @auth
-            markWatchedBtn.dataset.movieId = data.id;
+            markWatchedBtn.dataset.movieId = "";
+            planBtn.dataset.movieId = "";
+            if (data.id) {
+                markWatchedBtn.dataset.movieId = data.id;
+                planBtn.dataset.movieId = data.id;
+            } 
             markWatchedBtn.classList.remove('d-none');
+            planBtn.classList.remove('d-none');
             @endauth
+
         } catch (err) {
             console.error('Error:', err);
         }
@@ -211,7 +223,24 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error marking watched:', err);
         }
     });
+
+    planBtn.addEventListener('click', async () => {
+        const movieId = planBtn.dataset.movieId;
+
+        const res = await fetch('{{ route("movie.togglePlan") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ movie_id: movieId })
+        });
+
+        const data = await res.json();
+        alert(data.message);
+    });
     @endauth
+
 });
 
 </script>

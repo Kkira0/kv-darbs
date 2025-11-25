@@ -35,7 +35,7 @@ class User extends Authenticatable
     public function watchedMovies(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class, 'user_movie_history', 'users_id', 'movie_id')
-                    ->withPivot('watched', 'rating');
+                    ->withPivot('watched', 'plan_to_watch', 'preference');
     }
 
     public function movieHistory()
@@ -43,8 +43,4 @@ class User extends Authenticatable
         return $this->hasMany(UserMovieHistory::class, 'users_id');
     }
 
-    public function plannedMovies(): BelongsToMany
-    {
-        return $this->belongsToMany(Movie::class, 'plan_to_watch', 'users_id', 'movie_id');
-    }
 }

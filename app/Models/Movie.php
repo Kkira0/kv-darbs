@@ -30,12 +30,7 @@ class Movie extends Model
     public function watchedByUsers()
     {
         return $this->belongsToMany(User::class, 'user_movie_history', 'movie_id', 'users_id')
-                    ->withPivot('watched', 'rating');
-    }
-
-    public function plannedByUsers()
-    {
-        return $this->belongsToMany(User::class, 'plan_to_watch', 'movie_id', 'users_id');
+                    ->withPivot('watched', 'plan_to_watch', 'preference');
     }
 
     public function people()

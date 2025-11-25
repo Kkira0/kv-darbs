@@ -53,6 +53,37 @@
           @endforeach
         </div>
       @endif
+
+      <hr>
+
+      <h5 class="fw-bold mb-3 mt-4">Plānots skatīties</h5>
+
+      @if ($plannedMovies->isEmpty())
+          <div class="bg-light p-4 rounded text-center border">
+              <p class="text-muted mb-2">Nav pievienota neviena filma plānā skatīties.</p>
+          </div>
+      @else
+          <div class="row">
+              @foreach ($plannedMovies as $entry)
+                  <div class="col-md-3 mb-4">
+                      <div class="card shadow-sm">
+                          <img src="https://image.tmdb.org/t/p/w300{{ $entry->movie->poster_path }}" class="card-img-top">
+                          <div class="card-body text-center">
+                              <h6>{{ $entry->movie->title }}</h6>
+                              <p class="text-muted small">{{ $entry->movie->release_date }}</p>
+                              <form action="{{ route('movie.convertPlanToWatched') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $entry->id }}">
+                                <button type="submit" class="btn btn-sm btn-outline-success mt-2">
+                                    Atzīmēt kā noskatītu
+                                </button>
+                            </form>
+                          </div>
+                      </div>
+                  </div>
+              @endforeach
+          </div>
+      @endif
     </div>
   </div>
 </div>
