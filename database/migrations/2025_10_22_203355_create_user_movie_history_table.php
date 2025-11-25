@@ -12,7 +12,8 @@ return new class extends Migration
             $table->unsignedBigInteger('users_id');
             $table->unsignedBigInteger('movie_id');
             $table->boolean('watched')->default(false);
-            $table->tinyInteger('rating')->nullable();
+            $table->boolean('plan_to_watch')->default(false);
+            $table->tinyInteger('preference')->default(0);
 
             $table->primary(['users_id', 'movie_id']);
 
