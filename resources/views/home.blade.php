@@ -6,19 +6,19 @@
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 <div class="container mt-5">
     <div class="text-center mb-5">
-        <h1 class="fw-bold">Sveicināti KILM!</h1>
-        <p class="lead">Atrodiet filmas, kurās Jūs iemīlēsieties. Izvēlieties pēc iemīļotām kategorijām vai ģenerējiet nejaušu filmu.</p>
+        <h1 class="fw-bold">Welcome to KILM!</h1>
+        <p class="lead">Find movies you'll fall in love with. Choose by favorite categories or generate a random movie.</p>
     </div>
 
     <ul class="nav nav-tabs mb-4" id="selectionTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="genre-tab" data-bs-toggle="tab" data-bs-target="#genre" type="button" role="tab">Žanri</button>
+            <button class="nav-link active" id="genre-tab" data-bs-toggle="tab" data-bs-target="#genre" type="button" role="tab">Genres</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="rating-tab" data-bs-toggle="tab" data-bs-target="#rating" type="button" role="tab">Reitings</button>
+            <button class="nav-link" id="rating-tab" data-bs-toggle="tab" data-bs-target="#rating" type="button" role="tab">Rating</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="year-tab" data-bs-toggle="tab" data-bs-target="#year" type="button" role="tab">Izlaišanas gads</button>
+            <button class="nav-link" id="year-tab" data-bs-toggle="tab" data-bs-target="#year" type="button" role="tab">Release year</button>
         </li>
     </ul>
 
@@ -85,12 +85,12 @@
     </div>
 
     <div class="text-center my-4">
-        <h5>Izvēlētās kategorijas:</h5>
-        <p id="selected-summary" class="text-muted fst-italic">Nekas nav vēl izvēlēts.</p>
+        <h5>Selected categories:</h5>
+        <p id="selected-summary" class="text-muted fst-italic">Nothing has been selected yet.</p>
     </div>
 
     <div class="text-center mb-5">
-        <button type="button" class="btn btn-primary btn-lg shadow">Ģenerēt</button>
+        <button type="button" class="btn btn-primary btn-lg shadow">Generate</button>
     </div>
 
     <div class="row justify-content-center">
@@ -98,17 +98,17 @@
             <div class="card shadow-sm film-card">
                 <img src="{{ asset('pictures/placeholder.png') }}" class="card-img-top" alt="Film Poster">
                 <div class="card-body">
-                    <h5 class="card-title">Filmas virsraksts</h5>
-                    <p class="card-text">Ģenerētās filmas informācija parādīsies, kad uzpiedīsiet pogu "Ģenerēt".</p>
+                    <h5 class="card-title">Movie title</h5>
+                    <p class="card-text">The generated movie information will appear when you click the "Generate" button.</p>
                 </div>
             </div>
              @auth
             <div class="text-center mt-3">
-                <button id="markWatchedBtn" class="btn btn-success d-none">Atzīmēt kā noskatītu</button>
+                <button id="markWatchedBtn" class="btn btn-success d-none">Mark as watched</button>
             </div>
             <div class="text-center mt-3">
                 <button id="planBtn" class="btn btn-outline-warning d-none">
-                    Plānā skatīties
+                    Plan to watch
                 </button>
             </div>
             @endauth
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.id) {
                 markWatchedBtn.dataset.movieId = data.id;
                 planBtn.dataset.movieId = data.id;
-            } 
+            }
             markWatchedBtn.classList.remove('d-none');
             planBtn.classList.remove('d-none');
             @endauth

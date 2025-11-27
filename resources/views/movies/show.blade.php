@@ -13,9 +13,9 @@
 
         <div class="col-md-8">
             <h2 class="fw-bold">{{ $movie->title }}</h2>
-            <p class="fw-bold text-muted mb-1">Iznākšanas datums: {{ $movie->release_date }}</p>
-            <p><strong>Reitings:</strong> {{ $movie->vote_average }}/10</p>
-            <p><strong>Žanri:</strong> {{ implode(', ', $movie->genres->pluck('name')->toArray()) }}</p>
+            <p class="fw-bold text-muted mb-1">Release year: {{ $movie->release_date }}</p>
+            <p><strong>Rating:</strong> {{ $movie->vote_average }}/10</p>
+            <p><strong>Genres:</strong> {{ implode(', ', $movie->genres->pluck('name')->toArray()) }}</p>
 
             <hr>
 
@@ -27,23 +27,23 @@
 
     <div class="row">
         <div class="col-md-6">
-            <h4 class="fw-bold mb-3 text-info">Aktieri</h4>
+            <h4 class="fw-bold mb-3 text-info">Actors</h4>
             <ul class="ps-3">
                 @forelse ($movie->actors as $actor)
                     <li>
                         {{ $actor->name }}
                         @if($actor->pivot->character)
-                            <span class="text-muted small">kā <em>{{ $actor->pivot->character }}</em></span>
+                            <span class="text-muted small">as <em>{{ $actor->pivot->character }}</em></span>
                         @endif
                     </li>
                 @empty
-                    <li class="text-muted">Nav pieejama informācija par aktieriem.</li>
+                    <li class="text-muted">No information about the actors is available.</li>
                 @endforelse
             </ul>
         </div>
 
         <div class="col-md-6">
-            <h4 class="fw-bold mb-3 text-info">Komanda</h4>
+            <h4 class="fw-bold mb-3 text-info">Staff</h4>
             <ul class="ps-3">
                 @forelse ($movie->crew as $member)
                     <li>
@@ -51,7 +51,7 @@
                         <span class="text-muted small">— {{ $member->pivot->role }}</span>
                     </li>
                 @empty
-                    <li class="text-muted">Nav pieejama informācija par komandu.</li>
+                    <li class="text-muted">No staff information available.</li>
                 @endforelse
             </ul>
         </div>

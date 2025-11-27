@@ -11,20 +11,20 @@
           <a class="nav-link" href="{{ url('/') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('movies.catalog') }}">Katalogs</a>
+          <a class="nav-link" href="{{ route('movies.catalog') }}">Library</a>
         </li>
         @guest
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/login') }}">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('/register') }}">Reģistrēties</a>
+            <a class="nav-link" href="{{ url('/register') }}">Register</a>
           </li>
         @endguest
 
         @auth
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('/profile') }}">Profils</a>
+            <a class="nav-link" href="{{ url('/profile') }}">Profile</a>
           </li>
           <li class="nav-item">
             <form method="POST" action="{{ route('logout') }}">

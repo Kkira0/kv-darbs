@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-5" style="max-width: 600px;">
-    <h2 class="mb-4">Reģistrācija</h2>
+    <h2 class="mb-4">Register</h2>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -25,30 +25,30 @@
     <form method="POST" action="{{ route('register.post') }}">
         @csrf
         <div class="mb-3">
-            <label class="form-label">Lietotāja vārds</label>
+            <label class="form-label">Username</label>
             <input name="username" class="form-control" value="{{ old('username') }}" required />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">E-pasts</label>
+            <label class="form-label">E-mail</label>
             <input name="email" type="email" class="form-control" value="{{ old('email') }}" required />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Parole</label>
+            <label class="form-label">Password</label>
             <input name="password" type="password" class="form-control" required minlength="6" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Atkārtoti parole</label>
+            <label class="form-label">Repeat the password</label>
             <input name="password_confirmation" type="password" class="form-control" required minlength="6" />
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Reģistrēties</button>
+        <button type="submit" class="btn btn-primary w-100">Register</button>
     </form>
 
     <p class="mt-3 text-center">
-        Jau eksistē konts? <a href="{{ route('login') }}">Login</a>
+        Already have an account? <a href="{{ route('login') }}">Login</a>
     </p>
 </div>
 @endsection

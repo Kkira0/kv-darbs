@@ -4,28 +4,28 @@
 <div class="container mt-5">
   <div class="card shadow-lg border-0">
     <div class="card-header bg-dark text-white">
-      <h4 class="mb-0">Mans profils</h4>
+      <h4 class="mb-0">My profile</h4>
     </div>
     <div class="card-body">
       <div class="row mb-4">
         <div class="col-md-6">
-          <h5 class="fw-bold">Vārds:</h5>
+          <h5 class="fw-bold">Name:</h5>
           <p>{{ Auth::user()->name }}</p>
         </div>
         <div class="col-md-6">
-          <h5 class="fw-bold">E-pasts:</h5>
+          <h5 class="fw-bold">E-mail:</h5>
           <p>{{ Auth::user()->email }}</p>
         </div>
-        <a href="{{ route('profile.edit') }}" class="btn btn-dark mb-3">Rediģēt profilu</a>
+        <a href="{{ route('profile.edit') }}" class="btn btn-dark mb-3">Edit profile</a>
       </div>
 
       <hr>
 
-      <h5 class="fw-bold mb-3">Redzētas filmas</h5>
+      <h5 class="fw-bold mb-3">Movies seen</h5>
 
       @if ($watchedMovies->isEmpty())
         <div class="bg-light p-4 rounded text-center border">
-          <p class="text-muted mb-2">Nav atzīmēta neviena jau noskatīta filma.</p>
+          <p class="text-muted mb-2">No movies have been marked as already watched.</p>
         </div>
       @else
         <div class="row">
@@ -42,8 +42,8 @@
                     @method('DELETE')
                     <input type="hidden" name="movie_id" value="{{ $entry->movie->id }}">
                     <button type="submit" class="btn btn-sm btn-outline-danger mt-2"
-                        onclick="return confirm('Vai tiešām vēlaties noņemt šo filmu no redzēto saraksta?')">
-                        Noņemt no redzētajām
+                        onclick="return confirm('Are you sure you want to remove this movie from your watched list?')">
+                        Remove from seen
                     </button>
                   </form>
 
@@ -56,11 +56,11 @@
 
       <hr>
 
-      <h5 class="fw-bold mb-3 mt-4">Plānots skatīties</h5>
+      <h5 class="fw-bold mb-3 mt-4">Planned to watch</h5>
 
       @if ($plannedMovies->isEmpty())
           <div class="bg-light p-4 rounded text-center border">
-              <p class="text-muted mb-2">Nav pievienota neviena filma plānā skatīties.</p>
+              <p class="text-muted mb-2">No movies have been added to the plan to watch.</p>
           </div>
       @else
           <div class="row">
@@ -75,7 +75,7 @@
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $entry->id }}">
                                 <button type="submit" class="btn btn-sm btn-outline-success mt-2">
-                                    Atzīmēt kā noskatītu
+                                    Mark as watched
                                 </button>
                             </form>
                           </div>

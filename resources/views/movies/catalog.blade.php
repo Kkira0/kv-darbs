@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h1 class="fw-bold mb-4 text-center">Filmu katalogs</h1>
+    <h1 class="fw-bold mb-4 text-center">Movie library</h1>
 
     <div class="row">
         @foreach ($movies as $movie)

@@ -25,12 +25,12 @@
     <form method="POST" action="{{ route('login.post') }}">
         @csrf
         <div class="mb-3">
-            <label class="form-label">E-pasts</label>
+            <label class="form-label">E-mail</label>
             <input name="email" type="email" class="form-control" value="{{ old('email') }}" required />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Parole</label>
+            <label class="form-label">Password</label>
             <input name="password" type="password" class="form-control" required />
         </div>
 
@@ -38,7 +38,7 @@
     </form>
 
     <p class="mt-3 text-center">
-        Nav konts? <a href="{{ route('register') }}">Reģistrēties</a>
+        Don't have an account? <a href="{{ route('register') }}">Register</a>
     </p>
 </div>
 @endsection
