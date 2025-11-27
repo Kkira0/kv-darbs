@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/movie/unmark-watched', [UserMovieController::class, 'unmarkWatched'])->name('movie.unmarkWatched');
     Route::post('/movie/toggle-plan', [UserMovieController::class, 'togglePlan'])->name('movie.togglePlan');
     Route::post('/movie/convert-plan-to-watched', [UserMovieController::class, 'convertPlanToWatched'])->name('movie.convertPlanToWatched');
+    Route::post('/movie/set-preference', [UserMovieController::class, 'setPreference'])->name('movie.setPreference');
 
 });
 

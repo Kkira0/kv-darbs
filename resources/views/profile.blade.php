@@ -84,6 +84,82 @@
               @endforeach
           </div>
       @endif
+
+      <hr>
+
+      <h5 class="fw-bold mb-3 mt-4">Liked movies</h5>
+
+      @if ($likedMovies->isEmpty())
+          <div class="bg-light p-4 rounded text-center border">
+              <p class="text-muted mb-2">You haven't liked any movies yet.</p>
+          </div>
+      @else
+          <div class="row">
+              @foreach ($likedMovies as $entry)
+                  <div class="col-md-3 mb-4">
+                      <div class="card shadow-sm">
+                          <img src="https://image.tmdb.org/t/p/w300{{ $entry->movie->poster_path }}"
+                              class="card-img-top" alt="{{ $entry->movie->title }}">
+
+                          <div class="card-body text-center">
+                              <h6>{{ $entry->movie->title }}</h6>
+                              <p class="text-muted small">{{ $entry->movie->release_date }}</p>
+
+                              <!-- Remove Like = set preference to 0 -->
+                              <form action="{{ route('movie.setPreference') }}" method="POST">
+                                  @csrf
+                                  <input type="hidden" name="movie_id" value="{{ $entry->movie->id }}">
+                                  <input type="hidden" name="preference" value="0">
+                                  <button type="submit" class="btn btn-sm btn-outline-danger mt-2">
+                                      Remove like
+                                  </button>
+                              </form>
+
+                          </div>
+                      </div>
+                  </div>
+              @endforeach
+          </div>
+      @endif
+
+      <hr>
+
+      <h5 class="fw-bold mb-3 mt-4">Disliked movies</h5>
+
+      @if ($dislikedMovies->isEmpty())
+          <div class="bg-light p-4 rounded text-center border">
+              <p class="text-muted mb-2">You haven't disliked any movies yet.</p>
+          </div>
+      @else
+          <div class="row">
+              @foreach ($dislikedMovies as $entry)
+                  <div class="col-md-3 mb-4">
+                      <div class="card shadow-sm">
+                          <img src="https://image.tmdb.org/t/p/w300{{ $entry->movie->poster_path }}"
+                              class="card-img-top" alt="{{ $entry->movie->title }}">
+
+                          <div class="card-body text-center">
+                              <h6>{{ $entry->movie->title }}</h6>
+                              <p class="text-muted small">{{ $entry->movie->release_date }}</p>
+
+                              <!-- Remove dislike = set preference to 0 -->
+                              <form action="{{ route('movie.setPreference') }}" method="POST">
+                                  @csrf
+                                  <input type="hidden" name="movie_id" value="{{ $entry->movie->id }}">
+                                  <input type="hidden" name="preference" value="0">
+                                  <button type="submit" class="btn btn-sm btn-outline-danger mt-2">
+                                      Remove dislike
+                                  </button>
+                              </form>
+
+                          </div>
+                      </div>
+                  </div>
+              @endforeach
+          </div>
+      @endif
+
+
     </div>
   </div>
 </div>

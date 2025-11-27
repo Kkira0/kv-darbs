@@ -111,6 +111,10 @@
                     Plan to watch
                 </button>
             </div>
+            <div class="text-center mt-3">
+                <button id="likeBtn" class="btn btn-outline-success d-none">Like</button>
+                <button id="dislikeBtn" class="btn btn-outline-danger d-none">Dislike</button>
+            </div>
             @endauth
         </div>
     </div>
@@ -130,6 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
     @auth
     const markWatchedBtn = document.getElementById('markWatchedBtn');
     const planBtn = document.getElementById('planBtn');
+    const likeBtn = document.getElementById('likeBtn');
+    const dislikeBtn = document.getElementById('dislikeBtn');
     @endauth
 
     cards.forEach(card => card.addEventListener('click', () => {
@@ -192,12 +198,20 @@ document.addEventListener('DOMContentLoaded', () => {
             @auth
             markWatchedBtn.dataset.movieId = "";
             planBtn.dataset.movieId = "";
+            likeBtn.dataset.movieId = "";
+            dislikeBtn.dataset.movieId = "";
+
             if (data.id) {
                 markWatchedBtn.dataset.movieId = data.id;
                 planBtn.dataset.movieId = data.id;
+                likeBtn.dataset.movieId = data.id;
+                dislikeBtn.dataset.movieId = data.id;
             }
+
             markWatchedBtn.classList.remove('d-none');
             planBtn.classList.remove('d-none');
+            likeBtn.classList.remove('d-none');
+            dislikeBtn.classList.remove('d-none');
             @endauth
 
         } catch (err) {
@@ -238,6 +252,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const data = await res.json();
         alert(data.message);
+    });
+
+    const setPreference = async (movieId, preference) => {
+        try {
+            const res = await fetch('{{ route("movie.setPreference") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ movie_id: movieId, preference })
+            });
+            const data = await res.json();
+            alert(data.message);
+        } catch (err) {
+            console.error('Error setting preference:', err);
+        }
+    };
+
+    likeBtn.addEventListener('click', () => {
+        const movieId = likeBtn.dataset.movieId;
+        setPreference(movieId, 1);
+    });
+
+    dislikeBtn.addEventListener('click', () => {
+        const movieId = dislikeBtn.dataset.movieId;
+        setPreference(movieId, -1);
     });
     @endauth
 

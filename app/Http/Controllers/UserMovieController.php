@@ -103,4 +103,32 @@ class UserMovieController extends Controller
         return redirect()->back()->with('success', 'The movie has been moved from planned to watched!');
     }
 
+    public function setPreference(Request $request)
+    {
+        $request->validate([
+            'movie_id' => 'required|integer',
+            'preference' => 'nullable|in:-1,1',
+        ]);
+
+        $user = Auth::user();
+
+        $entry = UserMovieHistory::firstOrNew([
+            'users_id' => $user->id,
+            'movie_id' => $request->movie_id,
+        ]);
+
+        $entry->preference = $request->preference ?? 0;
+
+        $entry->save();
+
+        return response()->json([
+            'message' => match($entry->preference) {
+                1 => 'You liked this movie!',
+                -1 => 'You disliked this movie!',
+                default => 'No reaction set.',
+            },
+            'preference' => $entry->preference
+        ]);
+    }
+
 }
