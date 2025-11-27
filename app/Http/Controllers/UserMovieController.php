@@ -21,7 +21,7 @@ class UserMovieController extends Controller
             ->first();
 
         if ($existing) {
-            return response()->json(['message' => 'Filma jau ir atzīmēta kā noskatīta.']);
+            return response()->json(['message' => 'The movie has already been marked as watched.']);
         }
 
         UserMovieHistory::create([
@@ -30,7 +30,7 @@ class UserMovieController extends Controller
             'watched' => true,
         ]);
 
-        return redirect()->back()->with('success', 'Filma veiksmīgi atzīmēta kā noskatīta!');
+        return redirect()->back()->with('success', 'The movie has been successfully marked as watched!');
 
     }
 
@@ -47,10 +47,10 @@ class UserMovieController extends Controller
             ->delete();
 
         if (!$deleted) {
-            return redirect()->back()->with('error', 'Šī filma nav atzīmēta kā noskatīta.');
+            return redirect()->back()->with('error', 'This movie is not marked as watched.');
         }
 
-        return redirect()->back()->with('success', 'Filma veiksmīgi noņemta no redzēto saraksta.');
+        return redirect()->back()->with('success', 'The movie has been successfully removed from the watched list.');
     }
 
     public function togglePlan(Request $request)
@@ -72,11 +72,11 @@ class UserMovieController extends Controller
 
         return response()->json([
             'message' => $entry->plan_to_watch
-                ? 'Pievienots plānā skatīties!'
-                : 'Noņemts no plāna skatīties.'
+                ? 'Added to the plan to watch!'
+                : 'Removed from the plan to watch.'
         ]);
 
-        
+
     }
 
     public function convertPlanToWatched(Request $request)
@@ -92,7 +92,7 @@ class UserMovieController extends Controller
             ->first();
 
         if (!$entry || !$entry->plan_to_watch) {
-            return redirect()->back()->with('error', 'Šī filma nav plānā skatīties.');
+            return redirect()->back()->with('error', 'This movie is not on the list to watch.');
         }
 
         $entry->update([
@@ -100,7 +100,7 @@ class UserMovieController extends Controller
             'watched'       => true,
         ]);
 
-        return redirect()->back()->with('success', 'Filma pārvietota no plāna skatīties uz noskatītajām!');
+        return redirect()->back()->with('success', 'The movie has been moved from planned to watched!');
     }
 
 }
