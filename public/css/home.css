@@ -17,3 +17,9 @@
     max-height: 600px;
     background-color: #000;
 }
+
+@media (max-width: 576px) {
+.film-card img {
+        max-height: 400px;
+    }
+}

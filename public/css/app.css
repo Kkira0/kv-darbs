@@ -1,6 +1,6 @@
 body {
-    background-color: #A85545; 
-    color: #f5e6e6; 
+    background-color: #A85545;
+    color: #f5e6e6;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
 }
@@ -27,7 +27,7 @@ body {
 
 .navbar-brand {
     font-weight: bold;
-    color: #9C2007 !important; 
+    color: #9C2007 !important;
     font-size: 1.6rem;
 }
 
@@ -112,4 +112,59 @@ footer {
 
 .card a:hover {
     color: #ff3b1a;
+}
+
+
+@media (max-width: 992px) {
+    .hero {
+        padding: 60px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.4rem;
+    }
+    .hero p {
+        font-size: 1.05rem;
+    }
+    .hero {
+        padding: 50px 20px;
+    }
+
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero h1 {
+        font-size: 1.9rem;
+    }
+    .hero p {
+        font-size: 0.95rem;
+    }
+    .hero {
+        padding: 40px 15px;
+    }
+
+    body {
+        line-height: 1.4;
+    }
+
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .film-card img {
+        max-height: 400px;
+    }
 }
