@@ -120,17 +120,19 @@
     </div>
 </div>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
     const selected = { genre: [], rating: [], year: [] };
+
     const summary = document.getElementById('selected-summary');
     const cards = document.querySelectorAll('.selection-card');
     const generateBtn = document.querySelector('.btn.btn-primary');
-    const filmCard = document.querySelector('.film-card');
-    const filmImg = filmCard.querySelector('img');
-    const filmTitle = filmCard.querySelector('.card-title');
-    const filmText = filmCard.querySelector('.card-text');
+
+    const filmImg = document.querySelector('.film-card img');
+    const filmTitle = document.querySelector('.film-card .card-title');
+    const filmText = document.querySelector('.film-card .card-text');
+
     @auth
     const markWatchedBtn = document.getElementById('markWatchedBtn');
     const planBtn = document.getElementById('planBtn');
@@ -138,151 +140,103 @@ document.addEventListener('DOMContentLoaded', () => {
     const dislikeBtn = document.getElementById('dislikeBtn');
     @endauth
 
-    cards.forEach(card => card.addEventListener('click', () => {
-        const { type, value } = card.dataset;
-        const allCards = document.querySelectorAll(`[data-type="${type}"]`);
+    async function send(url, data) {
+        const res = await axios.post(url, data);
+        return res.data;
+    }
 
-
-        if (value === 'Any') {
-            if (selected[type].includes('Any')) {
-                selected[type] = [];
-                card.classList.remove('selected');
-            } else {
-                selected[type] = ['Any'];
-                allCards.forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected');
-            }
-        }
-
-        else {
-            selected[type] = selected[type].filter(v => v !== 'Any');
-            card.classList.toggle('selected');
-
-            if (card.classList.contains('selected')) selected[type].push(value);
-            else selected[type] = selected[type].filter(v => v !== value);
-        }
-
-        updateSummary();
-    }));
-
-
-    const updateSummary = () => {
+    function updateSummary() {
         const g = selected.genre.length ? selected.genre.join(', ') : 'Any';
         const r = selected.rating.length ? selected.rating.join(', ') : 'Any';
         const y = selected.year.length ? selected.year.join(', ') : 'Any';
         summary.textContent = `Genre: ${g} • Rating: ${r} • Year: ${y}`;
-    };
+    }
 
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
 
-    generateBtn.addEventListener('click', async () => {
-        try {
-            const res = await fetch('{{ route("generate.film") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(selected)
-            });
+            const type = card.dataset.type;
+            const value = card.dataset.value;
+            const allCards = document.querySelectorAll(`[data-type="${type}"]`);
 
-            const data = await res.json();
+            if (value === 'Any') {
+                selected[type] = selected[type].includes('Any') ? [] : ['Any'];
+                allCards.forEach(c => c.classList.remove('selected'));
+                if (selected[type].length) card.classList.add('selected');
+            } else {
+                selected[type] = selected[type].filter(v => v !== 'Any');
+                card.classList.toggle('selected');
 
-            if (data.error) return alert(data.error);
-
-            filmImg.src = data.poster_path
-                ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${data.poster_path}`
-                : '{{ asset("pictures/placeholder.png") }}';
-            filmTitle.textContent = data.title || 'Untitled';
-            filmText.textContent = data.description || 'No description available.';
-
-            @auth
-            markWatchedBtn.dataset.movieId = "";
-            planBtn.dataset.movieId = "";
-            likeBtn.dataset.movieId = "";
-            dislikeBtn.dataset.movieId = "";
-
-            if (data.id) {
-                markWatchedBtn.dataset.movieId = data.id;
-                planBtn.dataset.movieId = data.id;
-                likeBtn.dataset.movieId = data.id;
-                dislikeBtn.dataset.movieId = data.id;
+                if (card.classList.contains('selected'))
+                    selected[type].push(value);
+                else
+                    selected[type] = selected[type].filter(v => v !== value);
             }
 
-            markWatchedBtn.classList.remove('d-none');
-            planBtn.classList.remove('d-none');
-            likeBtn.classList.remove('d-none');
-            dislikeBtn.classList.remove('d-none');
-            @endauth
-
-        } catch (err) {
-            console.error('Error:', err);
-        }
-    });
-
-     @auth
-    markWatchedBtn.addEventListener('click', async () => {
-        const movieId = markWatchedBtn.dataset.movieId;
-        try {
-            const res = await fetch('{{ route("movie.markWatched") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ movie_id: movieId })
-            });
-            const data = await res.json();
-            alert(data.message);
-        } catch (err) {
-            console.error('Error marking watched:', err);
-        }
-    });
-
-    planBtn.addEventListener('click', async () => {
-        const movieId = planBtn.dataset.movieId;
-
-        const res = await fetch('{{ route("movie.togglePlan") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ movie_id: movieId })
+            updateSummary();
         });
-
-        const data = await res.json();
-        alert(data.message);
     });
 
-    const setPreference = async (movieId, preference) => {
+    generateBtn.addEventListener('click', async () => {
+
+        let data;
+
         try {
-            const res = await fetch('{{ route("movie.setPreference") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ movie_id: movieId, preference })
-            });
-            const data = await res.json();
-            alert(data.message);
-        } catch (err) {
-            console.error('Error setting preference:', err);
+            data = await send('{{ route("generate.film") }}', selected);
+        } catch (e) {
+            alert('Error loading movie');
+            return;
         }
-    };
 
-    likeBtn.addEventListener('click', () => {
-        const movieId = likeBtn.dataset.movieId;
-        setPreference(movieId, 1);
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        filmImg.src = data.poster_path
+            ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${data.poster_path}`
+            : '{{ asset("pictures/placeholder.png") }}';
+
+        filmTitle.textContent = data.title || 'Untitled';
+        filmText.textContent = data.description || 'No description';
+
+        @auth
+        markWatchedBtn.dataset.movieId = data.id || "";
+        planBtn.dataset.movieId = data.id || "";
+        likeBtn.dataset.movieId = data.id || "";
+        dislikeBtn.dataset.movieId = data.id || "";
+
+        markWatchedBtn.classList.remove('d-none');
+        planBtn.classList.remove('d-none');
+        likeBtn.classList.remove('d-none');
+        dislikeBtn.classList.remove('d-none');
+        @endauth
     });
 
-    dislikeBtn.addEventListener('click', () => {
-        const movieId = dislikeBtn.dataset.movieId;
-        setPreference(movieId, -1);
-    });
+    @auth
+    async function action(url, movieId, extra = {}) {
+        try {
+            const data = await send(url, { movie_id: movieId, ...extra });
+            alert(data.message);
+        } catch (e) {
+            alert('Error');
+        }
+    }
+
+    markWatchedBtn.onclick = () =>
+        action('{{ route("movie.markWatched") }}', markWatchedBtn.dataset.movieId);
+
+    planBtn.onclick = () =>
+        action('{{ route("movie.togglePlan") }}', planBtn.dataset.movieId);
+
+    likeBtn.onclick = () =>
+        action('{{ route("movie.setPreference") }}', likeBtn.dataset.movieId, { preference: 1 });
+
+    dislikeBtn.onclick = () =>
+        action('{{ route("movie.setPreference") }}', dislikeBtn.dataset.movieId, { preference: -1 });
     @endauth
 
 });
-
 </script>
+
 @endsection

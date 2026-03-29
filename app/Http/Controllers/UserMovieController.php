@@ -107,7 +107,7 @@ class UserMovieController extends Controller
     {
         $request->validate([
             'movie_id' => 'required|integer',
-            'preference' => 'nullable|in:-1,1',
+            'preference' => 'nullable|in:-1,0,1',
         ]);
 
         $user = Auth::user();
@@ -121,14 +121,11 @@ class UserMovieController extends Controller
 
         $entry->save();
 
-        return response()->json([
-            'message' => match($entry->preference) {
-                1 => 'You liked this movie!',
-                -1 => 'You disliked this movie!',
-                default => 'No reaction set.',
-            },
-            'preference' => $entry->preference
-        ]);
+        return redirect()->back()->with('success', match($entry->preference) {
+            1 => 'You liked this movie!',
+            -1 => 'You disliked this movie!',
+            default => 'Reaction removed.',
+        });
     }
 
 }

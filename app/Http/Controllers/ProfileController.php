@@ -51,10 +51,12 @@ class ProfileController extends Controller
 
         $likedMovies = $user->movieHistory()
             ->where('preference', 1)
+            ->with('movie')
             ->get();
 
         $dislikedMovies = $user->movieHistory()
             ->where('preference', -1)
+            ->with('movie')
             ->get();
 
 
