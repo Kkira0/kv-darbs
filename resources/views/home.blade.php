@@ -182,7 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let data;
 
         try {
-            data = await send('{{ route("generate.film") }}', selected);
+            const url = @auth 
+                '{{ route("generate.film.auth") }}' 
+            @else 
+                '{{ route("generate.film") }}' 
+            @endauth;
+
+            data = await send(url, selected);
         } catch (e) {
             alert('Error loading movie');
             return;
@@ -217,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function action(url, movieId, extra = {}) {
         try {
             const data = await send(url, { movie_id: movieId, ...extra });
-            alert(data.message);
+            // alert(data.message);
         } catch (e) {
             alert('Error');
         }

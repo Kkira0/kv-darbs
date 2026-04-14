@@ -21,19 +21,16 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/profile', [ProfileController::class, 'show'])
-    ->middleware('auth')
-    ->name('profile');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::post('/movie/mark-watched', [UserMovieController::class, 'markWatched'])->name('movie.markWatched');
     Route::delete('/movie/unmark-watched', [UserMovieController::class, 'unmarkWatched'])->name('movie.unmarkWatched');
     Route::post('/movie/toggle-plan', [UserMovieController::class, 'togglePlan'])->name('movie.togglePlan');
     Route::post('/movie/convert-plan-to-watched', [UserMovieController::class, 'convertPlanToWatched'])->name('movie.convertPlanToWatched');
     Route::post('/movie/set-preference', [UserMovieController::class, 'setPreference'])->name('movie.setPreference');
-
+    Route::post('/generate-film-auth', [MovieController::class, 'generateAuth'])->name('generate.film.auth');
 });
 
 Route::get('/catalog', [MovieController::class, 'catalog'])->name('movies.catalog');
