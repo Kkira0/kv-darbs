@@ -220,26 +220,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     @auth
-    async function action(url, movieId, extra = {}) {
+    async function action(url, movieId, extra = {}, type = '') {
         try {
             const data = await send(url, { movie_id: movieId, ...extra });
-            // alert(data.message);
+            
+             if (data.status === 'exists') {
+                const messages = {
+                    watched: 'Already marked as watched',
+                    like: 'Already liked',
+                    dislike: 'Already disliked',
+                    plan: 'Already in plan to watch'
+                };
+
+                filmText.textContent = messages[type] || 'Already exists';
+                return;
+            }
         } catch (e) {
             alert('Error');
         }
     }
 
     markWatchedBtn.onclick = () =>
-        action('{{ route("movie.markWatched") }}', markWatchedBtn.dataset.movieId);
+        action('{{ route("movie.markWatched") }}', markWatchedBtn.dataset.movieId, {}, 'watched');
 
     planBtn.onclick = () =>
-        action('{{ route("movie.togglePlan") }}', planBtn.dataset.movieId);
+        action('{{ route("movie.togglePlan") }}', planBtn.dataset.movieId, {}, 'plan');
 
     likeBtn.onclick = () =>
-        action('{{ route("movie.setPreference") }}', likeBtn.dataset.movieId, { preference: 1 });
+        action('{{ route("movie.setPreference") }}', likeBtn.dataset.movieId, { preference: 1 }, 'like');
 
     dislikeBtn.onclick = () =>
-        action('{{ route("movie.setPreference") }}', dislikeBtn.dataset.movieId, { preference: -1 });
+        action('{{ route("movie.setPreference") }}', dislikeBtn.dataset.movieId, { preference: -1 }, 'dislike');
     @endauth
 
 });

@@ -16,21 +16,24 @@ class UserMovieController extends Controller
 
         $user = Auth::user();
 
-        $existing = UserMovieHistory::where('users_id', $user->id)
-            ->where('movie_id', $request->movie_id)
-            ->first();
-
-        if ($existing) {
-            return response()->json(['message' => 'The movie has already been marked as watched.']);
-        }
-
-        UserMovieHistory::create([
+        $entry = UserMovieHistory::firstOrNew([
             'users_id' => $user->id,
             'movie_id' => $request->movie_id,
-            'watched' => true,
         ]);
 
-        return redirect()->back()->with('success', 'The movie has been successfully marked as watched!');
+        if ($entry->watched) {
+            return response()->json([
+                'status' => 'exists',
+                'message' => 'Already marked as watched'
+            ]);
+        }
+
+        $entry->watched = true;
+        $entry->save();
+
+        return response()->json([
+            'status' => 'ok'
+        ]);
 
     }
 
@@ -66,7 +69,14 @@ class UserMovieController extends Controller
             'movie_id' => $request->movie_id,
         ]);
 
-        $entry->plan_to_watch = !$entry->plan_to_watch;
+        if ($entry->plan_to_watch) {
+            return response()->json([
+                'status' => 'exists',
+                'message' => 'Already in plan to watch'
+            ]);
+        }
+
+        $entry->plan_to_watch = true;
 
         $entry->save();
 
@@ -116,6 +126,13 @@ class UserMovieController extends Controller
             'users_id' => $user->id,
             'movie_id' => $request->movie_id,
         ]);
+
+        if ($entry->preference == $request->preference) {
+            return response()->json([
+                'status' => 'exists',
+                'message' => 'Already set'
+            ]);
+        }
 
         $entry->preference = $request->preference ?? 0;
 
