@@ -133,6 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const filmTitle = document.querySelector('.film-card .card-title');
     const filmText = document.querySelector('.film-card .card-text');
 
+    let currentMovieId = null;
+
     @auth
     const markWatchedBtn = document.getElementById('markWatchedBtn');
     const planBtn = document.getElementById('planBtn');
@@ -199,6 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        currentMovieId = data.id;
+
         filmImg.src = data.poster_path
             ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${data.poster_path}`
             : '{{ asset("pictures/placeholder.png") }}';
@@ -217,6 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
         likeBtn.classList.remove('d-none');
         dislikeBtn.classList.remove('d-none');
         @endauth
+    });
+
+    filmImg.style.cursor = 'pointer';
+
+    filmImg.addEventListener('click', () => {
+        if (currentMovieId) {
+            window.location.href = `/movie/${currentMovieId}`;
+        }
     });
 
     @auth
