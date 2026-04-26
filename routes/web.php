@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::post('/movie/mark-watched', [UserMovieController::class, 'markWatched'])->name('movie.markWatched');
-    Route::delete('/movie/unmark-watched', [UserMovieController::class, 'unmarkWatched'])->name('movie.unmarkWatched');
+    Route::post('/movie/unmark-watched', [UserMovieController::class, 'unmarkWatched'])->name('movie.unmarkWatched');
     Route::post('/movie/toggle-plan', [UserMovieController::class, 'togglePlan'])->name('movie.togglePlan');
     Route::post('/movie/convert-plan-to-watched', [UserMovieController::class, 'convertPlanToWatched'])->name('movie.convertPlanToWatched');
     Route::post('/movie/set-preference', [UserMovieController::class, 'setPreference'])->name('movie.setPreference');

@@ -39,7 +39,6 @@
 
                   <form action="{{ route('movie.unmarkWatched') }}" method="POST">
                     @csrf
-                    @method('DELETE')
                     <input type="hidden" name="movie_id" value="{{ $entry->movie->id }}">
                     <button type="submit" class="btn btn-sm btn-outline-danger mt-2"
                         onclick="return confirm('Are you sure you want to remove this movie from your watched list?')">
@@ -105,7 +104,6 @@
                               <h6>{{ $entry->movie->title }}</h6>
                               <p class="text-muted small">{{ $entry->movie->release_date }}</p>
 
-                              <!-- Remove Like = set preference to 0 -->
                               <form action="{{ route('movie.setPreference') }}" method="POST">
                                   @csrf
                                   <input type="hidden" name="movie_id" value="{{ $entry->movie->id }}">

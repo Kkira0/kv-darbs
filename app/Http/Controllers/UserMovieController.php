@@ -45,15 +45,21 @@ class UserMovieController extends Controller
 
         $user = Auth::user();
 
-        $deleted = UserMovieHistory::where('users_id', $user->id)
+        $entry = UserMovieHistory::where('users_id', $user->id)
             ->where('movie_id', $request->movie_id)
-            ->delete();
+            ->first();
 
-        if (!$deleted) {
-            return redirect()->back()->with('error', 'This movie is not marked as watched.');
+        if (!$entry || !$entry->watched) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Movie is not marked as watched'
+            ]);
         }
 
-        return redirect()->back()->with('success', 'The movie has been successfully removed from the watched list.');
+        $entry->watched = false;
+        $entry->save();
+
+        return redirect()->route('profile');
     }
 
     public function togglePlan(Request $request)
