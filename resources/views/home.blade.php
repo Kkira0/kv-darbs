@@ -104,16 +104,16 @@
             </div>
              @auth
             <div class="text-center mt-3">
-                <button id="markWatchedBtn" class="btn btn-success d-none">Mark as watched</button>
+                <button id="markWatchedBtn" class="btn btn-primary d-none">Mark as watched</button>
             </div>
             <div class="text-center mt-3">
-                <button id="planBtn" class="btn btn-outline-warning d-none">
+                <button id="planBtn" class="btn btn-warning d-none">
                     Plan to watch
                 </button>
             </div>
             <div class="text-center mt-3">
-                <button id="likeBtn" class="btn btn-outline-success d-none">Like</button>
-                <button id="dislikeBtn" class="btn btn-outline-danger d-none">Dislike</button>
+                <button id="likeBtn" class="btn btn-success d-none">Like</button>
+                <button id="dislikeBtn" class="btn btn-danger d-none">Dislike</button>
             </div>
             @endauth
         </div>
